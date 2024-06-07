@@ -15,25 +15,25 @@ export class ApiService {
   constructor(private httpClient: HttpClient) { }
 
   getContacts(): Observable<IContact[]> {
-    return this.httpClient.get(`${this.baseUrl}/Contacts`).pipe(
+    return this.httpClient.get(`${this.baseUrl}/Contact`).pipe(
       map((response: any) => response as IContact[])
     );
   }
 
   addContact(contact: any): Observable<IContact> {
-    return this.httpClient.post(`${this.baseUrl}/Contacts`, contact).pipe(
+    return this.httpClient.post(`${this.baseUrl}/Contact`, contact).pipe(
       map((response: any) => response as IContact)
     );
   }
 
   updateContact(contact: any): Observable<IContact> {
-    return this.httpClient.put(`${this.baseUrl}/Contacts`, contact).pipe(
+    return this.httpClient.put(`${this.baseUrl}/Contact`, contact).pipe(
       map((response: any) => response as IContact)
     );
   }
 
   deleteContact(id: number): Observable<number> {
-    return this.httpClient.delete(`${this.baseUrl}/Contacts?id=${id}`).pipe(
+    return this.httpClient.delete(`${this.baseUrl}/Contact?id=${id}`).pipe(
       map((response: any) => response as number)
     );
   }

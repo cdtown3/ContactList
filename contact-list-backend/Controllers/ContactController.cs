@@ -8,11 +8,11 @@ namespace contact_list_backend.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class ContactsController : ControllerBase
+    public class ContactController : ControllerBase
     {
         private readonly IContactService _contactService;
 
-        public ContactsController(IContactService contactService)
+        public ContactController(IContactService contactService)
         {
             _contactService = contactService;
         }
