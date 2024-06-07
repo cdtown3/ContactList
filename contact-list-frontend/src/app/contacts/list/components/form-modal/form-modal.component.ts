@@ -59,6 +59,7 @@ export class FormModalComponent implements OnInit {
 
   // pass form data to parent component to handle save
   onSave(): void {
+    this.contactForm.markAllAsTouched();
     if (this.contactForm.valid) {
       this.isSaving = true;
       this.errorMessage = null;

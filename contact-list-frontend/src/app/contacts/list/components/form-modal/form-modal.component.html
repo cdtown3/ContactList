@@ -110,6 +110,7 @@
                         @if (contactForm.get('address.zip')?.touched && contactForm.get('address.zip')?.invalid) {
                         <div class="text-red-500 text-sm">
                             @if (contactForm.get('address.zip')?.hasError('required')) { Zip code is required }
+                            @else if (contactForm.get('address.zip')?.hasError('minlength')) { Zip code too short (Min 5 chars) }
                             @else if (contactForm.get('address.zip')?.hasError('maxlength')) { Zip code too long (Max 5 chars) }
                         </div>
                         }
@@ -124,7 +125,7 @@
                     <button type="button" class="bg-gray-500 text-white py-2 px-4 rounded mr-2" 
                         (click)="onClose()" [disabled]="isSaving">Cancel</button>
                     <button (click)="onSave()" type="button" class="bg-blue-500 text-white py-2 px-4 rounded"
-                        [disabled]="!contactForm.valid || isSaving">Save</button>
+                        [disabled]="isSaving">Save</button>
                 } @else {
                     <button (click)="editForm()" type="button" class="bg-blue-500 text-white py-2 px-4 rounded"
                         >Edit</button>
