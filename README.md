@@ -7,7 +7,7 @@ Click one of the action buttons on the right of each row to view, edit, or delet
 
 ### Project notes are at the bottom as to not muddy up the setup instructions
 
-## Project setup
+# Project setup
 
 ### Clone ContactList repo
 
@@ -42,12 +42,12 @@ The hardest part should hopefully be done now!
 With both projects running, open up a new tab and navigate to http://localhost:4200  
 Upon load you should see the contact table, along with action buttons on the right side.
 
-# Good to go!
+## Good to go!
 Hopefully. Otherwise, email me at cdtown3@gmail.com and I can help!
 
 # ContactList Notes
 
-## Frontend
+### Frontend
 
 The frontend is written in TypeScript using Angular v18 as my framework. This is my most comfortable frontend framework as of now.  
 
@@ -64,7 +64,7 @@ For error handling, I believe the frontend is tight enough to not send any unrec
 
 Last note, I hope the use of modals was okay. I felt this was a good place to implement that style.
 
-## Backend
+### Backend
 
 The backend is written in .NET 8 and is using Entity framework core.  
 
