@@ -1,0 +1,139 @@
+<div class="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center z-50 overflow-auto">
+    <div class="bg-white p-6 rounded-lg shadow-lg w-full mx-4 md:w-2/3 lg:w-1/2 max-h-full overflow-y-auto">
+        <div class="flex justify-between mb-4">
+            <h2 class="text-2xl font-bold">{{ editMode ? 'Edit Contact' : 'View Contact' }}</h2>
+            <button (click)="onClose()" [disabled]="isSaving" class="text-gray-700 fa-lg p-2"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <form [formGroup]="contactForm" (ngSubmit)="onSave()">
+            <h3 class="text-lg font-semibold">Contact Info</h3>
+            <div class="flex flex-col sm:flex-row gap-2 mb-2">
+                <div class="flex-1">
+                    <label for="firstName" class="block text-gray-700">First Name</label>
+                    <input id="firstName" formControlName="firstName" class="w-full border rounded px-2 py-1" [maxlength]="20">
+                    @if (contactForm.get('firstName')?.touched && contactForm.get('firstName')?.invalid) {
+                    <div class="text-red-500 text-sm">
+                        @if (contactForm.get('firstName')?.hasError('required')) { First name is required }
+                        @else if (contactForm.get('firstName')?.hasError('maxlength')) { First name too long (Max 20 chars) }
+                    </div>
+                    }
+                </div>
+                <div class="flex-1">
+                    <label for="lastName" class="block text-gray-700">Last Name</label>
+                    <input id="lastName" formControlName="lastName" class="w-full border rounded px-2 py-1" [maxlength]="20">
+                    @if (contactForm.get('lastName')?.touched && contactForm.get('lastName')?.invalid) {
+                    <div class="text-red-500 text-sm">
+                        @if (contactForm.get('lastName')?.hasError('required')) { Last name is required }
+                        @else if (contactForm.get('lastName')?.hasError('maxlength')) { Last name too long (Max 20 chars) }
+                    </div>
+                    }
+                </div>
+            </div>
+            <div class="flex flex-col sm:flex-row gap-2 mb-2">
+                <div class="flex-1">
+                    <label for="emailAddress" class="block text-gray-700">Email Address</label>
+                    <input id="emailAddress" formControlName="emailAddress" type="email" class="w-full border rounded px-2 py-1">
+                    @if (contactForm.get('emailAddress')?.touched && contactForm.get('emailAddress')?.invalid) {
+                    <div class="text-red-500 text-sm">
+                        @if (contactForm.get('emailAddress')?.hasError('required')) { Email address is required }
+                        @else if (contactForm.get('emailAddress')?.hasError('email')) { Email address invalid }
+                    </div>
+                    }
+                </div>
+                <div class="flex-1">
+                    <label for="phoneNumber" class="block text-gray-700">Phone Number</label>
+                    <input id="phoneNumber" formControlName="phoneNumber" mask="(000) 000-0000" class="w-full border rounded px-2 py-1"  [maxlength]="14">
+                    @if (contactForm.get('phoneNumber')?.touched && contactForm.get('phoneNumber')?.invalid) {
+                    <div class="text-red-500 text-sm">
+                        @if (contactForm.get('phoneNumber')?.hasError('required')) { Phone number is required }
+                        @else if (contactForm.get('phoneNumber')?.hasError('maxlength') || contactForm.get('phoneNumber')?.hasError('minlength')) { 
+                            Enter a valid phone number (10 digits)
+                        }
+                    </div>
+                    }
+                </div>
+            </div>
+            <div class="mb-4">
+                <label for="contactFrequencyId" class="block text-gray-700">Contact Frequency</label>
+                <select class="w-full border rounded px-2 py-1 disabled:bg-gray-50" id="contactFrequencyId" formControlName="contactFrequencyId">
+                    @for (option of generalService.contactFrequencies; track $index) {
+                        <option [value]="option.id">{{ option.name }}</option>
+                    }
+                </select>
+                @if (contactForm.get('contactFrequencyId')?.touched && contactForm.get('contactFrequencyId')?.invalid) {
+                <div class="text-red-500 text-sm">
+                    @if (contactForm.get('contactFrequencyId')?.hasError('required')) { Please select a contact frequency }
+                </div>
+                }
+            </div>
+
+            <div formGroupName="address" class="my-4">
+                <h3 class="text-lg font-semibold">Address</h3>
+                <div class="flex flex-col sm:flex-row gap-2 mb-2">
+                    <div class="flex-1">
+                        <label for="street" class="block text-gray-700">Street</label>
+                        <input id="street" formControlName="street" class="w-full border rounded px-2 py-1" [maxlength]="100">
+                        @if (contactForm.get('address.street')?.touched && contactForm.get('address.street')?.invalid) {
+                        <div class="text-red-500 text-sm">
+                            @if (contactForm.get('address.street')?.hasError('required')) { Street is required }
+                            @else if (contactForm.get('address.street')?.hasError('maxlength')) { Street too long (Max 100 chars) }
+                        </div>
+                        }
+                    </div>
+                    <div class="flex-1">
+                        <label for="city" class="block text-gray-700">City</label>
+                        <input id="city" formControlName="city" class="w-full border rounded px-2 py-1" [maxlength]="50">
+                        @if (contactForm.get('address.city')?.touched && contactForm.get('address.city')?.invalid) {
+                        <div class="text-red-500 text-sm">
+                            @if (contactForm.get('address.city')?.hasError('required')) { City is required }
+                            @else if (contactForm.get('address.city')?.hasError('maxlength')) { City too long (Max 50 chars) }
+                        </div>
+                        }
+                    </div>
+                </div>
+                <div class="flex flex-col sm:flex-row gap-2 mb-2">
+                    <div class="flex-1">
+                        <label for="state" class="block text-gray-700">State</label>
+                        <select class="w-full border rounded px-2 py-1 disabled:bg-gray-50" id="state" formControlName="state">
+                            @for (state of generalService.states; track $index) {
+                            <option [value]="state.abbreviation">{{ state.name }}</option>
+                            }
+                        </select>
+                        @if (contactForm.get('address.state')?.touched && contactForm.get('address.state')?.invalid) {
+                        <div class="text-red-500 text-sm">
+                            @if (contactForm.get('address.state')?.hasError('required')) { State is required }
+                        </div>
+                        }
+                    </div>
+                    <div class="flex-1">
+                        <label for="zip" class="block text-gray-700">Zip</label>
+                        <input id="zip" formControlName="zip" class="w-full border rounded px-2 py-1" mask="00000" [maxlength]="5">
+                        @if (contactForm.get('address.zip')?.touched && contactForm.get('address.zip')?.invalid) {
+                        <div class="text-red-500 text-sm">
+                            @if (contactForm.get('address.zip')?.hasError('required')) { Zip code is required }
+                            @else if (contactForm.get('address.zip')?.hasError('maxlength')) { Zip code too long (Max 5 chars) }
+                        </div>
+                        }
+                    </div>
+                </div>
+            </div>
+            @if (errorMessage) {
+                <div class="text-red-500 text-sm">{{ errorMessage }}</div>
+            }
+            <div class="flex justify-end">
+                @if (editMode) {
+                    <button type="button" class="bg-gray-500 text-white py-2 px-4 rounded mr-2" 
+                        (click)="onClose()" [disabled]="isSaving">Cancel</button>
+                    <button (click)="onSave()" type="button" class="bg-blue-500 text-white py-2 px-4 rounded"
+                        [disabled]="!contactForm.valid || isSaving">Save</button>
+                } @else {
+                    <button (click)="editForm()" type="button" class="bg-blue-500 text-white py-2 px-4 rounded"
+                        >Edit</button>
+                }
+            </div>
+        </form>
+
+        @if (isSaving) {
+            <app-loading></app-loading>
+        }
+    </div>
+</div>

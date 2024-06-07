@@ -1,0 +1,11 @@
+# Angular
+contact-list-frontend/node_modules
+contact-list-frontend/dist
+contact-list-frontend/build
+contact-list-frontend/.angular
+contact-list-frontend/.vscode/*
+
+# .net
+contact-list-backend/bin
+contact-list-backend/obj/*
+contact-list-backend/.vs

@@ -1,0 +1,30 @@
+<div class="text-white">
+    <div class="flex justify-between mb-4">
+        <h1 class="text-2xl font-bold">Contact List</h1>
+        <button (click)="openContactModal(undefined, true)" type="button" class="bg-green-500 text-white py-2 px-4 rounded">Add Contact</button>
+    </div>
+    <div>
+        <app-table 
+            [contactData]="contacts" 
+            (viewContact)="openContactModal($event, false)" 
+            (editContact)="openContactModal($event, true)"
+            (deleteContact)="openDeleteModal($event)"
+        ></app-table>
+    </div>
+    @if (error) {
+        <div class="text-red-500 text-center mt-4">{{ error }}</div>
+    }
+</div>
+
+@if (contactModalOpen) {
+    <app-form-modal [contact]="selectedContact" [editMode]="editMode" (closeModal)="closeContactModal()"
+        (saveContact)="onSubmit($event)" ></app-form-modal>
+}
+
+@if (confirmDeleteModalOpen) {
+    <app-delete-modal [contact]="selectedContact" (confirmDelete)="confirmDelete()" (cancelDelete)="closeConfirmDeleteModal()"></app-delete-modal>
+}
+
+@if (resolvingData) {
+    <app-loading></app-loading>
+}
