@@ -26,7 +26,7 @@ namespace contact_list_backend.Services
                 throw new ArgumentException("New contact cannot have an Id");
 
             if (await _context.ContactFrequencies.FirstOrDefaultAsync(c => c.Id == contact.ContactFrequencyId) == null)
-                throw new ArgumentException("Unknown contact frequency id");
+                throw new ArgumentException("Unknown contact frequency");
 
             contact.Address.State = contact.Address.State.ToUpper();
             if (await _context.States.FirstOrDefaultAsync(s => s.Abbreviation == contact.Address.State) == null)
@@ -43,9 +43,6 @@ namespace contact_list_backend.Services
             if (contact.Id == 0)
                 throw new ArgumentException("Contact requires an Id");
 
-            if (!await _context.Contacts.AnyAsync(c => c.Id == contact.Id))
-                throw new ArgumentException("Contact not found");
-
             if (await _context.ContactFrequencies.FirstOrDefaultAsync(c => c.Id == contact.ContactFrequencyId) == null)
                 throw new ArgumentException("Unknown contact frequency id");
 
@@ -53,7 +50,13 @@ namespace contact_list_backend.Services
             if (await _context.States.FirstOrDefaultAsync(s => s.Abbreviation == contact.Address.State) == null)
                 throw new ArgumentException("Unknown state abbreviation");
 
-            _context.Update(contact);
+            if (!await _context.Contacts.AnyAsync(c => c.Id == contact.Id))
+            {
+                _context.Add(contact);
+            } else
+            {
+                _context.Update(contact);
+            }
             await _context.SaveChangesAsync();
 
             return contact;
@@ -66,7 +69,7 @@ namespace contact_list_backend.Services
 
             var contact = await _context.Contacts.FindAsync(id);
             if (contact == null)
-                throw new ArgumentException($"Contact not found with Id {id}");
+                throw new ArgumentException("Contact not found");
 
             _context.Contacts.Remove(contact);
             await _context.SaveChangesAsync();

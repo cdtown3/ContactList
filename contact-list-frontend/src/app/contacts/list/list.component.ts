@@ -74,7 +74,11 @@ export class ListComponent implements OnInit {
       this.apiService.updateContact(contact).subscribe({
         next: (updatedContact: any) => {
           const index = this.contacts.findIndex(c => c.id === updatedContact.id);
-          if (index != -1) this.contacts[index] = contact;
+          if (index != -1) {
+             this.contacts[index] = contact;
+          } else {
+            this.contacts.push(contact);
+          }
           this.closeContactModal();
         },
         error: (error) => {
@@ -124,7 +128,10 @@ export class ListComponent implements OnInit {
     if (error.status === 0) {
       return 'An error occurred while connecting to the server.';
     }
-    return error.error ? error.error : 'Whoops... we\'re not sure what happened!';
+    if (error.error && error.error.message) {
+      return error.error.message;
+    }
+    return 'Whoops... we\'re not sure what happened!';
   }
 
   // pass error to form modal to display

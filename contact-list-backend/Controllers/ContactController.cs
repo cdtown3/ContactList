@@ -41,7 +41,7 @@ namespace contact_list_backend.Controllers
             }
             catch (ArgumentException ex)
             {
-                return BadRequest(ex.Message);
+                return BadRequest(new { ex.Message });
             }
         }
 
@@ -59,7 +59,7 @@ namespace contact_list_backend.Controllers
             }
             catch (ArgumentException ex)
             {
-                return BadRequest(ex.Message);
+                return BadRequest(new { ex.Message });
             }
         }
 
@@ -77,7 +77,7 @@ namespace contact_list_backend.Controllers
             }
             catch (ArgumentException ex)
             {
-                return BadRequest(ex.Message);
+                return BadRequest(new { ex.Message });
             }
         }
 
