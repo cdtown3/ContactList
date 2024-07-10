@@ -62,21 +62,6 @@ namespace contact_list_backend.Services
             return contact;
         }
 
-        public async Task<int> DeleteContactAsync(int id)
-        {
-            if (id == 0)
-                throw new ArgumentException("An Id is required");
-
-            var contact = await _context.Contacts.FindAsync(id);
-            if (contact == null)
-                throw new ArgumentException("Contact not found");
-
-            _context.Contacts.Remove(contact);
-            await _context.SaveChangesAsync();
-
-            return id;
-        }
-
         public async Task<IEnumerable<ContactFrequency>> GetContactFrequenciesAsync()
         {
             return await _context.ContactFrequencies.ToListAsync();
