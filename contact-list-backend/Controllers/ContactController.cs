@@ -64,24 +64,6 @@ namespace contact_list_backend.Controllers
         }
 
         /// <summary>
-        /// Takes the Id of the contact to delete. If found, deletes and returns the deleted contact Id
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        [HttpDelete]
-        public async Task<IActionResult> Delete(int id)
-        {
-            try
-            {
-                return Ok(await _contactService.DeleteContactAsync(id));
-            }
-            catch (ArgumentException ex)
-            {
-                return BadRequest(new { ex.Message });
-            }
-        }
-
-        /// <summary>
         /// Retrieves the list of possible contact frequencies for dropdown
         /// </summary>
         /// <returns></returns>
